@@ -98,18 +98,18 @@ describe Constraints::Or do
       end
     end
 
-    # context "when matching two simple equal constraints" do
-    #   let(:constraint) {
-    #     Constraints::Or.new([
-    #       Constraints::Eq.new("hello"),
-    #       Constraints::Eq.new("world"),
-    #     ])
-    #   }
-    #
-    #   let(:matches) { constraint.matches("hello") }
-    #
-    #   it "has two matches" do; expect(matches.length).to eq 2; end
-    # end
+    context "when matching two simple equal constraints" do
+      let(:constraint) {
+        Constraints::Or.new([
+          Constraints::Eq.new("hello"),
+          Constraints::Eq.new("world"),
+        ])
+      }
+
+      let(:matches) { constraint.matches("hello world") }
+
+      it "has two matches" do; expect(matches.length).to eq 2; end
+    end
   end
 end
 
