@@ -17,6 +17,25 @@ module Constraints
     end
   end
 
+  # No corresponding regex.
+  class And < Constraint
+    def initialize(constraints)
+      @constraints = constraints
+    end
+
+    def matches(text)
+      @constraints.each.flat_map do |constraint|
+        matches = constraint.matches(text)
+
+        if matches.empty?
+          return []
+        end
+
+        matches
+      end
+    end
+  end
+
   # Regex: /(abc|def)/
   class Or < Constraint
     def initialize(constraints)
