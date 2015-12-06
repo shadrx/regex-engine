@@ -79,37 +79,35 @@ module Constraints
     end
   end
 
-  # Regex: /abc+/
-  # Matches at least one `abc` token.
-  class RepeatOneOrMore < Constraint
-    def initialize(constraint)
+  # A generic repeat constraint.
+  class Repeat < Constraint
+
+    # Regex: /abc*/
+    # Matches 0 or more `abc` tokens.
+    def self.any_number(constraint)
+      Repeat.new(constraint, (-1..-1))
+    end
+
+    # Regex: /abc+/
+    # Matches at least one `abc` token.
+    def self.at_least_once(constraint)
+      Repeat.new(constraint, (1..-1))
+    end
+
+    # Regex: /abc{2,3}/
+    # Repeats a constraint between `min_times` and `max_times`.
+    def self.between(min_times, max_times)
+      Repeat.new(constraint, (min_times..max_times))
+    end
+
+    # Repeats a constraint exactly `n` times.
+    def self.exactly(n)
+      Repeat.new(constraint, (n..n))
+    end
+
+    def initialize(constraint, repeat_range)
       @constraint = constraint
-    end
-
-    def matches(text)
-      fail 'unimplemented'
-    end
-  end
-
-  # Regex: /abc*/
-  # Matches 0 or more `abc` tokens.
-  class RepeatAnyAmount < Constraint
-    def initialize(constraint)
-      @constraint = constraint
-    end
-
-    def matches(text)
-      fail 'unimplemented'
-    end
-  end
-
-  # Regex: /abc{2,3}/
-  # Matches `abc` at least twice and at most three times.
-  class RepeatExactTimes < Constraint
-    def initialize(constraint, min, max)
-      @constraint = constraint
-      @min = min
-      @max = max
+      @repeat_range = repeat_range
     end
 
     def matches(text)

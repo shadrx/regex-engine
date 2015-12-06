@@ -140,15 +140,19 @@ describe Constraints::AnyCharacter do
     end
   end
 end
-
-describe Constraints::RepeatOneOrMore do
-
-end
-
-describe Constraints::RepeatAnyAmount do
-
-end
-
-describe Constraints::RepeatExactTimes do
-
-end
+#
+# describe Constraints::Repeat do
+#   describe "#matches" do
+#     context "when matching any number of repetitions" do
+#       let(:constraint) {
+#         Constraints::Repeat.any_number(Constraints::Eq.new("a"))
+#       }
+#
+#       it "matches 5 repetitions" do
+#         matches = constraint.matches("aaaaa")
+#         expect(matches).to have(5).matches
+#       end
+#     end
+#   end
+# end
+#
