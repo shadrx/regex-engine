@@ -114,7 +114,31 @@ describe Constraints::Or do
 end
 
 describe Constraints::AnyCharacter do
+  let(:constraint) { Constraints::AnyCharacter.new }
 
+  describe "#matches" do
+    context "when matching against a simple character" do
+      it "matches against 'a'" do
+        expect(constraint.matches("a").length).to eq 1
+      end
+
+      it "matches against '&'" do
+        expect(constraint.matches("&").length).to eq 1
+      end
+
+      it "matches against an empty space" do
+        expect(constraint.matches(" ").length).to eq 1
+      end
+    end
+
+    context "when matching against a string" do
+      context "when matching against 'hello'" do
+        let(:matches) { constraint.matches("hello") }
+
+        it "has five matches" do; expect(matches.length).to eq 5; end
+      end
+    end
+  end
 end
 
 describe Constraints::RepeatOneOrMore do
