@@ -28,49 +28,55 @@ describe Constraints::Eq do
     end
   end
 end
-#
-# describe Constraints::And do
-#   describe "#matches" do
-#     context "when matching a single equal constraint" do
-#       let(:constraints) {
-#         Constraints::And.new([Constraints::Eq.new("hello")])
-#       }
-#
-#       context "when matching with an identical string" do
-#         let(:matches) { constraints.matches("hello") }
-#
-#         it "has a single match" do; expect(matches.length).to eq 1; end
-#       end
-#
-#       context "when matching with an incorrect string" do
-#         let(:matches) { constraints.matches("he") }
-#
-#         it "has no matches" do; expect(matches).to be_empty; end
-#       end
-#     end
-#
-#     context "when matching with two equal constraints" do
-#       let(:constraints) {
-#         Constraints::And.new([
-#           Constraints::Eq.new("hello"),
-#           Constraints::Eq.new("world"),
-#         ])
-#       }
-#
-#       context "when matching with a single correct string" do
-#         let(:matches) { constraints.matches("world") }
-#
-#         it "has no matches" do; expect(matches).to be_empty; end
-#       end
-#
-#       context "when matching with both strings correct" do
-#         let(:matches) { constraints.matches("hello world") }
-#
-#         it "has two matches" do; expect(matches.length).to eq 2; end
-#       end
-#     end
-#   end
-# end
+
+describe Constraints::And do
+  describe "#matches" do
+    context "when matching a single equal constraint" do
+      let(:constraints) {
+        Constraints::And.new([Constraints::Eq.new("hello")])
+      }
+
+      context "when matching with an identical string" do
+        let(:matches) { constraints.matches("hello") }
+
+        it "has a single match" do; expect(matches.length).to eq 1; end
+      end
+
+      context "when matching with an incorrect string" do
+        let(:matches) { constraints.matches("he") }
+
+        it "has no matches" do; expect(matches).to be_empty; end
+      end
+    end
+
+    context "when matching with two equal constraints" do
+      let(:constraints) {
+        Constraints::And.new([
+          Constraints::Eq.new("hello"),
+          Constraints::Eq.new("world"),
+        ])
+      }
+
+      context "when matching with no strings correct" do
+        let(:matches) { constraints.matches("abcdef") }
+
+        it "has no matches" do; expect(matches).to be_empty; end
+      end
+
+      context "when matching with a single correct string" do
+        let(:matches) { constraints.matches("world") }
+
+        it "has no matches" do; expect(matches).to be_empty; end
+      end
+
+      context "when matching with both strings correct" do
+        let(:matches) { constraints.matches("hello world") }
+
+        it "has two matches" do; expect(matches.length).to eq 2; end
+      end
+    end
+  end
+end
 
 describe Constraints::Or do
   describe "#matches" do
