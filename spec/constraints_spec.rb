@@ -70,7 +70,7 @@ describe Constraints::And do
       end
 
       context "when matching with both strings correct" do
-        let(:matches) { constraints.matches("hello world") }
+        let(:matches) { constraints.matches("helloworld") }
 
         it "has two matches" do; expect(matches.length).to eq 2; end
       end

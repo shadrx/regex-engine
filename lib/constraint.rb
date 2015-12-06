@@ -8,6 +8,11 @@ class Match
     @high_index = high_index
   end
 
+  def adjacent?(match)
+    @high_index == match.low_index ||
+      @low_index == match.high_index
+  end
+
   # Gets the number of characters that were matched.
   def length
     @high_index - @low_index

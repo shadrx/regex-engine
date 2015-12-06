@@ -31,7 +31,8 @@ module Constraints
     end
 
     def matches(text)
-      @constraints.each.flat_map do |constraint|
+      # find every single match for the constraint
+      all_matches = @constraints.each.flat_map do |constraint|
         matches = constraint.matches(text)
 
         if matches.empty?
@@ -40,6 +41,17 @@ module Constraints
 
         matches
       end
+
+      # we only correctly match if all matches are
+      # adjacent to each other.
+      all_matches.each.inject do |prev,cur|
+        if !prev.adjacent?(cur)
+          return []
+        end
+        cur
+      end
+
+      all_matches
     end
   end
 
