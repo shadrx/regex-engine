@@ -1,6 +1,6 @@
 require_relative '../lib/constraint'
 
-describe MatchResult do
+describe Match do
 
 end
 

@@ -1,25 +1,22 @@
 # The result of a constraint match.
-class MatchResult
+class Match
   attr_reader :text
 
   # Creates a unmatched result.
   def self.unmatched
-    MatchResult.new([])
+    Match.new([])
   end
 
   # Creates a new match result.
-  # If `characters` is empty, then no matches were made.
   def initialize(matched_text)
     @text = matched_text
-  end
-
-  def matched?
-    !@text..empty?
   end
 end
 
 class Constraint
-  def match(value)
+  # Attempts to match a constraint with a value.
+  # Returns a list of match results
+  def matches(value)
     fail 'Constraint#match is not implemented'
   end
 end
@@ -28,11 +25,16 @@ module Constraints
   # Checks that a set of characters are equal to a value.
   # Regex: /foo/
   class Eq < Constraint
-    def initialize(value)
-      @value = value
+    def initialize(text)
+      @text = text
     end
 
-    def match(value)
+    def matches(text)
+      if @text == text
+        [Match.new(text)]
+      else
+        []
+      end
     end
   end
 
@@ -42,7 +44,8 @@ module Constraints
       @constraints = constraints
     end
 
-    def match(value)
+    def matches(value)
+      @constraints.flat_map { |constraint| constraint.matches(value) }
     end
   end
 
@@ -58,7 +61,7 @@ module Constraints
       @constraint = constraint
     end
 
-    def match(value)
+    def matches(value)
     end
   end
 
@@ -69,7 +72,7 @@ module Constraints
       @constraint = constraint
     end
 
-    def match(value)
+    def matches(value)
     end
   end
 
@@ -82,7 +85,7 @@ module Constraints
       @max = max
     end
 
-    def match(value)
+    def matches(value)
     end
   end
 end
