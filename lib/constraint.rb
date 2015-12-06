@@ -7,6 +7,11 @@ class Match
     @low_index = low_index
     @high_index = high_index
   end
+
+  # Gets the number of characters that were matched.
+  def length
+    @high_index - @low_index
+  end
 end
 
 class Constraint

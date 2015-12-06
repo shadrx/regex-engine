@@ -10,7 +10,7 @@ module Constraints
 
     def matches(text)
       if @text == text
-        [Match.new(text)]
+        [Match.new(0, text.length)]
       else
         []
       end
@@ -31,6 +31,14 @@ module Constraints
   # Regex: /./
   class AnyCharacter < Constraint
     def initialize; end
+
+    # FIXME: this probably doesn't handle new lines properly.
+    def matches(text)
+      # Match every character
+      (0...text.length).map do |index|
+          Match.new(index, index+1)
+      end
+    end
   end
 
   # Regex: /abc+/
@@ -41,6 +49,7 @@ module Constraints
     end
 
     def matches(text)
+      fail 'unimplemented'
     end
   end
 
@@ -52,6 +61,7 @@ module Constraints
     end
 
     def matches(text)
+      fail 'unimplemented'
     end
   end
 
@@ -65,8 +75,8 @@ module Constraints
     end
 
     def matches(text)
+      fail 'unimplemented'
     end
   end
 end
-
 
