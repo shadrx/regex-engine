@@ -1,15 +1,11 @@
 # The result of a constraint match.
 class Match
-  attr_reader :text
-
-  # Creates a unmatched result.
-  def self.unmatched
-    Match.new([])
-  end
+  attr_reader :low_index, :high_index
 
   # Creates a new match result.
-  def initialize(matched_text)
-    @text = matched_text
+  def initialize(low_index, high_index)
+    @low_index = low_index
+    @high_index = high_index
   end
 end
 

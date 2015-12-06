@@ -23,8 +23,8 @@ module Constraints
       @constraints = constraints
     end
 
-    def matches(value)
-      @constraints.flat_map { |constraint| constraint.matches(value) }
+    def matches(text)
+      @constraints.flat_map { |constraint| constraint.matches(text) }
     end
   end
 
@@ -40,7 +40,7 @@ module Constraints
       @constraint = constraint
     end
 
-    def matches(value)
+    def matches(text)
     end
   end
 
@@ -51,7 +51,7 @@ module Constraints
       @constraint = constraint
     end
 
-    def matches(value)
+    def matches(text)
     end
   end
 
@@ -64,7 +64,7 @@ module Constraints
       @max = max
     end
 
-    def matches(value)
+    def matches(text)
     end
   end
 end
