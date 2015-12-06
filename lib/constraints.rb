@@ -9,10 +9,17 @@ module Constraints
     end
 
     def matches(text)
-      if @text == text
-        [Match.new(0, text.length)]
-      else
-        []
+      text.chars.each.with_index.inject([]) do |results,char_and_index|
+        char,index = char_and_index
+        if char == @text.chars.first
+          substr = text[index..-1]
+
+          if substr.start_with?(@text)
+            results += [Match.new(index, index+@text.length)]
+          end
+        end
+
+        results
       end
     end
   end

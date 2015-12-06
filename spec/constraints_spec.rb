@@ -10,9 +10,9 @@ describe Constraints::Eq do
     end
 
     context "when matching a substring" do
-      let(:matches) { Constraints::Eq.new("hello").matches("ll") }
+      let(:matches) { Constraints::Eq.new("ll").matches("hello") }
 
-      it "has no matches" do; expect(matches).to be_empty; end
+      it "has one match" do; expect(matches.length).to eq 1; end
     end
 
     context "when matching a similar string" do
