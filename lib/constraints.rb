@@ -1,6 +1,15 @@
-require_relative 'constraint'
+require_relative 'match'
 
 module Constraints
+
+  class Constraint
+    # Attempts to match a constraint with a value.
+    # Returns a list of match results
+    def matches(value)
+      fail 'Constraint#match is not implemented'
+    end
+  end
+
   # Checks that a set of characters are equal to a value.
   # Regex: /foo/
   class Eq < Constraint
