@@ -2,37 +2,55 @@ require_relative 'constraints'
 
 class Parser
 
+  START_END_TOKEN = "/"
+
+  class ParserError < StandardError
+  end
+
   def initialize(tokens)
     @tokens = tokens
     @position = 0
   end
 
   def parse
-    first_token = self.peek_token
+    first_token = peek_token
 
-    expect { |t| t=="/" }
+    expect_next_to_be(START_END_TOKEN)
 
     root_constraints = []
     
     while !finished?
       if first_token == "["
-        root_constraints << parse_character_class
+        constraint = parse_character_class
       elsif first_token == "."
-        root_contraints << parse_any_period
+        constraint = parse_any_character
       else
-        root_constraints << parse_eq
+        constraint = parse_eq
       end
+
+      case peek_token
+      when "+"
+        constraint = parse_one_or_more(constraint)
+      end
+
+      root_constraints << contraint
     end
 
     Constraints::And.new(root_constraints)
   end
 
-  def parse_character_class
+  def parse_character_class 
     fail
   end
 
-  def parse_any_period
-    fail
+  def parse_any_character
+    eat
+    Constraints:AnyCharacter.new
+  end
+
+  def parse_one_or_more(constraint)
+    expect_next_to_be("+")
+    Constraints::Repeat.at_least_once(constraint)
   end
 
   def parse_eq
@@ -57,11 +75,12 @@ class Parser
     peek_token == "/"
   end
 
-  def expect(&predicate)
-    next_tok = next_token
-    if !predicate.call(next_tok)
-      raise "expected not that"
+  def expect_next_to_be(token)
+    if @tokens.first != token 
+      raise ParserError, "Expected '#{token}' but got '#{@tokens.first}'"
     end
+
+    eat
   end
 
   def remaining?

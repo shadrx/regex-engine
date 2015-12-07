@@ -9,4 +9,3 @@ parser = Parser.new(Tokenizer.new(REGEX).tokenize)
 puts "/#{parser.parse}/"
 
 
-
