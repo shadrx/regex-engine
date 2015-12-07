@@ -67,11 +67,3 @@ class Match
   end
 end
 
-class Constraint
-  # Attempts to match a constraint with a value.
-  # Returns a list of match results
-  def matches(value)
-    fail 'Constraint#match is not implemented'
-  end
-end
-

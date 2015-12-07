@@ -1,4 +1,4 @@
-require_relative '../lib/constraint'
+require_relative '../lib/match'
 
 describe Match do
   describe "#merge" do
@@ -62,6 +62,3 @@ describe Match do
   end
 end
 
-describe Constraint do
-
-end
