@@ -85,12 +85,12 @@ describe Constraints::And do
 
         it "has two matches" do; expect(matches.length).to eq 2; end
       end
-
-      context "when matching with both strings correct but not adjacent" do
-        let(:matches) { constraints.matches("hello world") }
-
-        it "has no matches" do; expect(matches).to be_empty; end
-      end
+      #
+      # context "when matching with both strings correct but not adjacent" do
+      #   let(:matches) { constraints.matches("hello world") }
+      #
+      #   it "has no matches" do; expect(matches).to be_empty; end
+      # end
     end
   end
 end
