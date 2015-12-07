@@ -34,6 +34,10 @@ module Constraints
       end
     end
 
+    def to_s
+      @text
+    end
+
     def ==(other)
       if other.is_a?(Eq)
         @text == other.text
@@ -82,6 +86,10 @@ module Constraints
         false
       end
     end
+
+    def to_s
+      @constraints.map(&:to_s).fold
+    end
   end
 
   # Regex: /(abc|def)/
@@ -101,6 +109,19 @@ module Constraints
         @constraints == other.constraints
       else
         false
+      end
+    end
+
+    def to_s
+      is_first = true
+      @constraints.map(&:to_s).inject("(") do |str,constraint_str|
+        if is_first
+          is_first = false
+        else
+          str += "|"
+        end
+
+        str + constraint_str
       end
     end
   end
@@ -123,6 +144,10 @@ module Constraints
       else
         false
       end
+    end
+
+    def to_s
+      "."
     end
   end
 
@@ -176,6 +201,16 @@ module Constraints
       if other.is_a?(Repeat)
         @constraint == other.constraint &&
           @range == other.range
+      end
+    end
+
+    def to_s
+      if @range == (0..MAX_REPETITIONS)
+        "#{@constraint}*"
+      elsif @range == (1..MAX_REPETITIONS)
+        "#{@constraint}+"
+      else
+        "#{constraint}{{#{@range.first},#{@range.last}}}"
       end
     end
   end
