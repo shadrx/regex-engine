@@ -124,8 +124,6 @@ module Constraints
     def matches(text)
       matches = @constraint.matches(text)
 
-      puts "length: #{matches.length}, range: #{@range}"
-
       if @range.include?(matches.length)
         matches
       else
