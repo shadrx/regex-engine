@@ -31,6 +31,17 @@ end
 
 describe Constraints::And do
   describe "#matches" do
+    context "when matching a single wildcard" do
+      let(:constraints) {
+        Constraints::And.new([Constraints::AnyCharacter.new])
+      }
+      let(:matches) { constraints.matches("a") }
+
+      it "has a single match" do
+        expect(matches.length).to eq 1
+      end
+    end
+
     context "when matching a single equal constraint" do
       let(:constraints) {
         Constraints::And.new([Constraints::Eq.new("hello")])
