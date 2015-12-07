@@ -1,10 +1,7 @@
 require 'byebug'
 require_relative 'constraints'
 
-class Parser
-
-  class ParserError < StandardError
-  end
+class Tokenizer
 
   SPECIAL_TOKENS = ["/", ".", "+", "[", "]", "(", ")"]
 
@@ -13,14 +10,32 @@ class Parser
     @processed_character_count = 0
   end
 
-  def parse
-    expect_next_to_be("/")
-    Constraints::Eq.new(parse_equals)
+  def tokenize
+    tokens = []
+    while remaining_input?
+      if special_token?(peek)
+       tokens << next_symbol 
+      else 
+       tokens << next_word
+      end
+    end
+
+    tokens
   end
 
   private
 
-  def parse_equals
+  def peek
+    remaining_input.first
+  end
+
+  def next_symbol
+    character = peek
+    @processed_character_count += 1
+    character
+  end
+
+  def next_word
     take_until_or_end { |c| SPECIAL_TOKENS.include?(c) }.join
   end
 
@@ -29,7 +44,7 @@ class Parser
     @processed_character_count += chars.length
     chars
   end
-
+  
   def expect_next_to_be(character)
     if remaining_input.first != character 
       raise ParserError, "Expected '#{character}' but got '#{remaining_input.first}'"
