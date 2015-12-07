@@ -88,7 +88,7 @@ module Constraints
     end
 
     def to_s
-      @constraints.map(&:to_s).fold
+      @constraints.join
     end
   end
 
