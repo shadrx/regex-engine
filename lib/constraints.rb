@@ -4,6 +4,8 @@ module Constraints
   # Checks that a set of characters are equal to a value.
   # Regex: /foo/
   class Eq < Constraint
+    attr_reader :text
+
     def initialize(text)
       @text = text
     end
@@ -26,6 +28,8 @@ module Constraints
 
   # No corresponding regex.
   class And < Constraint
+    attr_reader :constraints
+
     def initialize(constraints)
       @constraints = constraints
     end
@@ -57,6 +61,8 @@ module Constraints
 
   # Regex: /(abc|def)/
   class Or < Constraint
+    attr_reader :constraints
+
     def initialize(constraints)
       @constraints = constraints
     end
@@ -81,37 +87,50 @@ module Constraints
 
   # A generic repeat constraint.
   class Repeat < Constraint
+    attr_reader :constraint, :range
+
+    # The maximum number of repetitions
+    # Used because we don't have infinite ranges.
+    MAX_REPETITIONS = 100000000
 
     # Regex: /abc*/
     # Matches 0 or more `abc` tokens.
     def self.any_number(constraint)
-      Repeat.new(constraint, (-1..-1))
+      Repeat.new(constraint, (0..MAX_REPETITIONS))
     end
 
     # Regex: /abc+/
     # Matches at least one `abc` token.
     def self.at_least_once(constraint)
-      Repeat.new(constraint, (1..-1))
+      Repeat.new(constraint, (1..MAX_REPETITIONS))
     end
 
     # Regex: /abc{2,3}/
     # Repeats a constraint between `min_times` and `max_times`.
-    def self.between(min_times, max_times)
+    def self.between(constraint, min_times, max_times)
       Repeat.new(constraint, (min_times..max_times))
     end
 
     # Repeats a constraint exactly `n` times.
-    def self.exactly(n)
+    def self.exactly(constraint, n)
       Repeat.new(constraint, (n..n))
     end
 
-    def initialize(constraint, repeat_range)
+    def initialize(constraint, range)
       @constraint = constraint
-      @repeat_range = repeat_range
+      @range = range
     end
 
     def matches(text)
-      fail 'unimplemented'
+      matches = @constraint.matches(text)
+
+      puts "length: #{matches.length}, range: #{@range}"
+
+      if @range.include?(matches.length)
+        matches
+      else
+        []
+      end
     end
   end
 end

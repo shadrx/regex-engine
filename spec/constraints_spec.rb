@@ -140,19 +140,108 @@ describe Constraints::AnyCharacter do
     end
   end
 end
-#
-# describe Constraints::Repeat do
-#   describe "#matches" do
-#     context "when matching any number of repetitions" do
-#       let(:constraint) {
-#         Constraints::Repeat.any_number(Constraints::Eq.new("a"))
-#       }
-#
-#       it "matches 5 repetitions" do
-#         matches = constraint.matches("aaaaa")
-#         expect(matches).to have(5).matches
-#       end
-#     end
-#   end
-# end
-#
+
+describe Constraints::Repeat do
+  describe "#matches" do
+    context "when matching any number of repetitions" do
+      let(:constraint) {
+        Constraints::Repeat.any_number(Constraints::Eq.new("a"))
+      }
+
+      it "matches 5 repetitions" do
+        matches = constraint.matches("aaaaa")
+        expect(matches.length).to eq 5
+      end
+
+      it "matches 1 repetition" do
+        matches = constraint.matches("a")
+        expect(matches.length).to eq 1
+      end
+
+      it "doesn't match an incorrect string" do
+        matches = constraint.matches("b")
+        expect(matches).to be_empty
+      end
+
+      context "when matching against two disjoint tokens" do
+        let(:matches) { constraint.matches("aaabaaaa") }
+
+        it "has 7 matches" do
+          expect(matches.length).to be 7
+        end
+      end
+
+    end
+
+    context "when matching at least one repetition" do
+      let(:constraint) {
+        Constraints::Repeat.at_least_once(Constraints::Eq.new("a"))
+      }
+
+      it "doesn't match 0 repetitions" do
+        matches = constraint.matches("")
+        expect(matches).to be_empty
+      end
+
+      it "matches 1 repetition" do
+        matches = constraint.matches("a")
+        expect(matches.length).to be 1
+      end
+
+      it "matches 12 repetitions" do
+        matches = constraint.matches("aaaaaaaaaaaa")
+        expect(matches.length).to eq 12
+      end
+    end
+
+    context "when matching between two and four repetitions" do
+      let(:constraint) {
+        Constraints::Repeat.between(Constraints::Eq.new("a"), 2, 4)
+      }
+
+      it "doesn't match one repetition" do
+        matches = constraint.matches("a")
+        expect(matches).to be_empty
+      end
+
+      it "matches two repetitions" do
+        matches = constraint.matches("aa")
+        expect(matches.length).to eq 2
+      end
+
+      it "matches three repetitions" do
+        matches = constraint.matches("aaa")
+        expect(matches.length).to eq 3
+      end
+
+      it "matches four repetitions" do
+        matches = constraint.matches("aaaa")
+        expect(matches.length).to eq 4
+      end
+
+      it "doesn't match five repetitions" do
+        matches = constraint.matches("aaaaa")
+        expect(matches).to be_empty
+      end
+    end
+
+    context "when matching exactly four repetitions" do
+      let(:constraint) {
+        Constraints::Repeat.exactly(Constraints::Eq.new("a"), 4)
+      }
+
+      it "doesn't match three repetitions" do
+        expect(constraint.matches("aaa")).to be_empty
+      end
+
+      it "matches four repetitions" do
+        expect(constraint.matches("aaaa").length).to eq 4
+      end
+
+      it "doesn't match five repetitions" do
+        expect(constraint.matches("aaaaa")).to be_empty
+      end
+    end
+  end
+end
+
