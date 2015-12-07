@@ -30,10 +30,11 @@ class Parser
 
       case peek_token
       when "+"
+        byebug
         constraint = parse_one_or_more(constraint)
       end
 
-      root_constraints << contraint
+      root_constraints << constraint
     end
 
     Constraints::And.new(root_constraints)
@@ -76,7 +77,7 @@ class Parser
   end
 
   def expect_next_to_be(token)
-    if @tokens.first != token 
+    if peek_token != token 
       raise ParserError, "Expected '#{token}' but got '#{@tokens.first}'"
     end
 
