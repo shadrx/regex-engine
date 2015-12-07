@@ -24,6 +24,14 @@ module Constraints
         results
       end
     end
+
+    def ==(other)
+      if other.is_a?(Eq)
+        @text == other.text
+      else
+        @text == other
+      end
+    end
   end
 
   # No corresponding regex.
@@ -57,6 +65,14 @@ module Constraints
 
       all_matches
     end
+
+    def ==(other)
+      if other.is_a?(And)
+        @constraints == other.constraints
+      else
+        false
+      end
+    end
   end
 
   # Regex: /(abc|def)/
@@ -70,6 +86,14 @@ module Constraints
     def matches(text)
       @constraints.flat_map { |constraint| constraint.matches(text) }
     end
+
+    def ==(other)
+      if other.is_a?(Or)
+        @constraints == other.constraints
+      else
+        false
+      end
+    end
   end
 
   # Regex: /./
@@ -81,6 +105,14 @@ module Constraints
       # Match every character
       (0...text.length).map do |index|
           Match.new(index, index+1)
+      end
+    end
+
+    def ==(other)
+      if other.is_a?(AnyCharacter)
+        true
+      else
+        false
       end
     end
   end
@@ -128,6 +160,13 @@ module Constraints
         matches
       else
         []
+      end
+    end
+
+    def ==(other)
+      if other.is_a?(Repeat)
+        @constraint == other.constraint &&
+          @range == other.range
       end
     end
   end
