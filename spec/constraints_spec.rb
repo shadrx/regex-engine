@@ -149,18 +149,15 @@ describe Constraints::Repeat do
       }
 
       it "matches 5 repetitions" do
-        matches = constraint.matches("aaaaa")
-        expect(matches.length).to eq 5
+        expect(constraint.matches("aaaaa").length).to eq 5
       end
 
       it "matches 1 repetition" do
-        matches = constraint.matches("a")
-        expect(matches.length).to eq 1
+        expect(constraint.matches("a").length).to eq 1
       end
 
       it "doesn't match an incorrect string" do
-        matches = constraint.matches("b")
-        expect(matches).to be_empty
+        expect(constraint.matches("b")).to be_empty
       end
 
       context "when matching against two disjoint tokens" do
@@ -179,18 +176,15 @@ describe Constraints::Repeat do
       }
 
       it "doesn't match 0 repetitions" do
-        matches = constraint.matches("")
-        expect(matches).to be_empty
+        expect(constraint.matches("")).to be_empty
       end
 
       it "matches 1 repetition" do
-        matches = constraint.matches("a")
-        expect(matches.length).to be 1
+        expect(constraint.matches("a").length).to be 1
       end
 
       it "matches 12 repetitions" do
-        matches = constraint.matches("aaaaaaaaaaaa")
-        expect(matches.length).to eq 12
+        expect(constraint.matches("aaaaaaaaaaaa").length).to eq 12
       end
     end
 
@@ -200,28 +194,23 @@ describe Constraints::Repeat do
       }
 
       it "doesn't match one repetition" do
-        matches = constraint.matches("a")
-        expect(matches).to be_empty
+        expect(constraint.matches("a")).to be_empty
       end
 
       it "matches two repetitions" do
-        matches = constraint.matches("aa")
-        expect(matches.length).to eq 2
+        expect(constraint.matches("aa").length).to eq 2
       end
 
       it "matches three repetitions" do
-        matches = constraint.matches("aaa")
-        expect(matches.length).to eq 3
+        expect(constraint.matches("aaa").length).to eq 3
       end
 
       it "matches four repetitions" do
-        matches = constraint.matches("aaaa")
-        expect(matches.length).to eq 4
+        expect(constraint.matches("aaaa").length).to eq 4
       end
 
       it "doesn't match five repetitions" do
-        matches = constraint.matches("aaaaa")
-        expect(matches).to be_empty
+        expect(constraint.matches("aaaaa")).to be_empty
       end
     end
 
