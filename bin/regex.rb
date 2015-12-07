@@ -3,7 +3,7 @@
 require_relative '../lib/parser'
 require_relative '../lib/tokenizer'
 
-REGEX = "/abc/"
+REGEX = gets.chomp
 
 parser = Parser.new(Tokenizer.new(REGEX).tokenize)
 puts "/#{parser.parse}/"
