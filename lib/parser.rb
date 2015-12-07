@@ -32,7 +32,6 @@ class Parser
 
       case peek_token
       when "+"
-        byebug
         constraint = parse_one_or_more(constraint)
       end
 
