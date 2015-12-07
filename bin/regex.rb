@@ -17,5 +17,14 @@ TEXT = gets.chomp
 puts "text: '#{TEXT}'"
 matches = root_constraint.matches(TEXT)
 
-puts "matches: #{matches}"
+puts "Match indices: #{matches}"
+
+substrings = matches.map do |match|
+  TEXT[match.low_index..match.high_index-1]
+end
+
+puts
+substrings.each do |substring|
+  puts "Matched substring: #{substring}"
+end
 
