@@ -13,13 +13,15 @@ class Parser
   end
 
   def parse
-    first_token = peek_token
 
     expect_next_to_be(START_END_TOKEN)
 
+
     root_constraints = []
-    
+
     while !finished?
+      first_token = peek_token
+
       if first_token == "["
         constraint = parse_character_class
       elsif first_token == "."
@@ -46,7 +48,7 @@ class Parser
 
   def parse_any_character
     eat
-    Constraints:AnyCharacter.new
+    Constraints::AnyCharacter.new
   end
 
   def parse_one_or_more(constraint)
